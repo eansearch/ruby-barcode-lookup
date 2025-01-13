@@ -8,4 +8,5 @@ Gem::Specification.new do |s|
   s.files       = ['lib/barcode_lookup.rb']
   s.homepage    = 'https://github.com/eansearch/ruby-barcode-lookup'
   s.license     = 'MIT'
+  s.required_ruby_version = '>= 2.4.0'
 end
