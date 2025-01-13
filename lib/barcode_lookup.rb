@@ -8,7 +8,7 @@ class BarcodeLookup
   class Version # :nodoc:
     MAJOR = 1
     MINOR = 0
-    TINY  = 0
+    TINY  = 1
 
     String = [MAJOR, MINOR, TINY].join('.')
   end
@@ -20,7 +20,7 @@ class BarcodeLookup
   # api_token: (String)
   def initialize(api_token)
     @token = api_token
-    @baseURL = 'https://api.ean-search.org/api?format=json&token='
+    @base_url = 'https://api.ean-search.org/api?format=json&token='
     @timeout = 180
     @max_api_tries = 3
     @remain = -1
@@ -141,12 +141,11 @@ class BarcodeLookup
     result[0]['barcode']
   end
 
-  # Set the HTTP timeout for API calls in second
+  # Set the HTTP timeout for API calls in seconds
   #
   # Arguments:
   # second: (Integer)
-  def set_timeout(sec)
-    # Set HTTP timeout in seconds
+  def timeout(sec)
     @timeout = sec
   end
 
@@ -159,7 +158,7 @@ class BarcodeLookup
   protected
 
   def api_call(params, tries = 1)
-    @uri = URI(@baseURL.to_s + @token.to_s + '&' + params)
+    @uri = URI("#{@base_url}#{@token}&#{params}")
     response = Net::HTTP.start(@uri.host, @uri.port, use_ssl: true, read_timeout: @timeout) do |http|
       request = Net::HTTP::Get.new(@uri.request_uri)
       http.request(request)
