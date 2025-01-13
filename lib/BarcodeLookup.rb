@@ -5,12 +5,12 @@ require 'json'
 # Provide access to barcode lookup, validation and product search through the EAN-Search.org API
 class BarcodeLookup
 
-  class Version #:nodoc:
+  class Version # :nodoc:
     MAJOR = 1
-	MINOR = 0
-	TINY  = 0
+    MINOR = 0
+    TINY  = 0
 
-	String = [MAJOR, MINOR, TINY].join('.')
+    String = [MAJOR, MINOR, TINY].join('.')
   end
 
   # Initialize the class with an API access token from ean-search.org
@@ -35,7 +35,7 @@ class BarcodeLookup
   def barcode_lookup(ean, preferred_lang = 1)
     json = api_call("op=barcode-lookup&ean=#{ean}&language=#{preferred_lang}")
     result = JSON.parse(json)
-    return nil if result.is_a?(Array) && result[0].key?("error")
+    return nil if result.is_a?(Array) && result[0].key?('error')
 
     result[0]
   end
@@ -152,7 +152,7 @@ class BarcodeLookup
 
   # Get the number of credits remaining for API calls
   # will return -1 before the first API call is made
-  def credits_remaining()
+  def credits_remaining
     @remain
   end
 
@@ -164,11 +164,11 @@ class BarcodeLookup
       request = Net::HTTP::Get.new(@uri.request_uri)
       http.request(request)
     end
-    if (response.code == '429' && tries < @max_api_tries)
+    if response.code == '429' && tries < @max_api_tries
       sleep 1
-      return api_call(params, tries+1)
+      return api_call(params, tries + 1)
     end
     @remain = response['X-Credits-Remaining'] if response.key?('X-Credits-Remaining')
-    return response.body
+    response.body
   end
 end
