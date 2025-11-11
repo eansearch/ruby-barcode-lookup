@@ -20,7 +20,7 @@ product = lookup.barcode_lookup(ean)
 if product.nil?
     puts "EAN #{ean} not found"
 else
-    puts "EAN #{product['ean']} is #{product['name']}"
+    puts "EAN #{product['ean']} is #{product['name']} Google category #{product['googleCategoryId']}"
 end
 
 puts "Lookup single ISBN #{isbn}:"
