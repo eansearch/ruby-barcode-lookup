@@ -8,7 +8,7 @@ class BarcodeLookup
   class Version # :nodoc:
     MAJOR = 1
     MINOR = 0
-    TINY  = 1
+    TINY  = 2
 
     String = [MAJOR, MINOR, TINY].join('.')
   end
@@ -160,7 +160,7 @@ class BarcodeLookup
   def api_call(params, tries = 1)
     @uri = URI("#{@base_url}#{@token}&#{params}")
     response = Net::HTTP.start(@uri.host, @uri.port, use_ssl: true, read_timeout: @timeout) do |http|
-      request = Net::HTTP::Get.new(@uri.request_uri)
+      request = Net::HTTP::Get.new(@uri.request_uri, {'User-Agent' => 'ruby-eansearch/1.0'})
       http.request(request)
     end
     if response.code == '429' && tries < @max_api_tries
