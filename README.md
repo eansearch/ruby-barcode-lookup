@@ -71,5 +71,23 @@ else
     puts "Barcode image for EAN #{ean}: data:image/png;base64,#{png}"
 end
 
+puts "Lookup the Amazon ASIN for EAN 5099750442227:"
+asin = lookup.find_asin_for_ean('5099750442227')
+if asin.nil?
+    puts "No ASIN found"
+else
+    puts "ASIN is #{asin}"
+    puts "EAN for ASIN #{asin} is #{lookup.find_ean_for_asin(asin)}"
+end
+
+puts "Lookup the Library of Congress control number for ISBN-13 9780815346333:"
+lccn = lookup.find_lccn_for_ean('9780815346333')
+if lccn.nil?
+    puts "No LCCN found"
+else
+    puts "LCCN is #{lccn}"
+    puts "EAN for LCCN #{lccn} is #{lookup.find_ean_for_lccn(lccn)}"  # the first one, if there are several
+end
+
 puts "Credits remaining: " + lookup.credits_remaining.to_s
 
